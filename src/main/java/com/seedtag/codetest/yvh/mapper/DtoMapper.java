@@ -29,7 +29,8 @@ public class DtoMapper {
     }
 
     public Coordinates mapCoordinates(CoordinatesDTO coordinatesDTO) {
-        return new Coordinates(coordinatesDTO.x(), coordinatesDTO.y());
+        double module = Math.sqrt(Math.pow(coordinatesDTO.x(), 2) + Math.pow(coordinatesDTO.y(), 2));
+        return new Coordinates(coordinatesDTO.x(), coordinatesDTO.y(), module);
     }
 
     public Enemy mapEnemy(EnemyDTO enemyDTO) {
