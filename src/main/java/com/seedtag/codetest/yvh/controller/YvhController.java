@@ -5,6 +5,7 @@ import com.seedtag.codetest.yvh.dto.RadarEntryDTO;
 import com.seedtag.codetest.yvh.mapper.DtoMapper;
 import com.seedtag.codetest.yvh.model.Coordinates;
 import com.seedtag.codetest.yvh.service.IRadarService;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +20,9 @@ public class YvhController {
         this.dtoMapper = dtoMapper;
     }
 
-    @PostMapping(value = "/radar")
+    @PostMapping(value = "/radar",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public CoordinatesDTO radar(@RequestBody RadarEntryDTO radarEntryDTO) {
         Coordinates coordinatesResult = radarService.getAttackCoordinates(dtoMapper.mapRadarEntry(radarEntryDTO));
         return new CoordinatesDTO(coordinatesResult.x(), coordinatesResult.y());
