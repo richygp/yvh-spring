@@ -17,8 +17,7 @@ public class YvhController {
         this.radarService = radarService;
     }
 
-    @GetMapping(value = "/greeting",
-            produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/greeting")
     public Coordinates greeting(){
         return radarService.getAttackCoordinates(
                 new RadarEntry(new ArrayList<>(),new ArrayList<>()));
