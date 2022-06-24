@@ -1,12 +1,12 @@
 package com.seedtag.codetest.yvh.controller;
 
+import com.seedtag.codetest.yvh.dto.CoordinatesDTO;
 import com.seedtag.codetest.yvh.model.Coordinates;
 import com.seedtag.codetest.yvh.model.RadarEntry;
 import com.seedtag.codetest.yvh.service.IRadarService;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
 
 @RestController
 public class YvhController {
@@ -16,9 +16,9 @@ public class YvhController {
         this.radarService = radarService;
     }
 
-    @GetMapping(value = "/greeting")
-    public Coordinates greeting(){
-        return radarService.getAttackCoordinates(
-                new RadarEntry(new ArrayList<>(),new ArrayList<>()));
+    @PostMapping(value = "/radar")
+    public CoordinatesDTO radar(@RequestBody RadarEntry radarEntry){
+        Coordinates coordinatesResult = radarService.getAttackCoordinates(radarEntry);
+        return new CoordinatesDTO(coordinatesResult.x(), coordinatesResult.y());
     }
 }
