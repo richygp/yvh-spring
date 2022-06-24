@@ -3,7 +3,6 @@ package com.seedtag.codetest.yvh.controller;
 import com.seedtag.codetest.yvh.model.Coordinates;
 import com.seedtag.codetest.yvh.model.RadarEntry;
 import com.seedtag.codetest.yvh.service.IRadarService;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
