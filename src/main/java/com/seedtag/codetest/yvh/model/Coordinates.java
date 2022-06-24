@@ -1,11 +1,4 @@
 package com.seedtag.codetest.yvh.model;
 
-public class Coordinates {
-    private final int x;
-    private final int y;
-
-    public Coordinates(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
+public record Coordinates(int x, int y, Double module) {
 }
