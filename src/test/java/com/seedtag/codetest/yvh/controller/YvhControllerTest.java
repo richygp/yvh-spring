@@ -42,13 +42,12 @@ class YvhControllerTest {
     }
 
     @Test
-    void whenSendingScan_AndThenOK() throws Exception {
-        RadarEntryDTO radarEntryDTO = new RadarEntryDTO(new ArrayList<>(), new ArrayList<>());
+    void whenSendingEmptyScan_AndThenResponseOK() throws Exception {
         RadarEntry radarEntry = new RadarEntry(new ArrayList<>(), new ArrayList<>());
         // Given
-        given(dtoMapper.mapRadarEntry(radarEntryDTO))
+        given(dtoMapper.mapRadarEntry(any(RadarEntryDTO.class)))
                 .willReturn(radarEntry);
-        given(radarService.getAttackCoordinates(radarEntry))
+        given(radarService.getAttackCoordinates(any(RadarEntry.class)))
                 .willReturn(new Coordinates(0, 0));
         // When
         MockHttpServletResponse response = mvc.perform(
