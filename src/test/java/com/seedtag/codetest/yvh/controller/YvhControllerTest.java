@@ -43,24 +43,24 @@ class YvhControllerTest {
 
     @Test
     void whenSendingScan_AndThenOK() throws Exception {
-//        RadarEntryDTO radarEntryDTO = new RadarEntryDTO(new ArrayList<>(), new ArrayList<>());
-//        RadarEntry radarEntry = new RadarEntry(new ArrayList<>(), new ArrayList<>());
-//        // Given
-//        given(dtoMapper.mapRadarEntry(radarEntryDTO))
-//                .willReturn(radarEntry);
-//        given(radarService.getAttackCoordinates(radarEntry))
-//                .willReturn(new Coordinates(0, 0));
-//        // When
-//        MockHttpServletResponse response = mvc.perform(
-//                post("/radar/")
-//                        .content("{\"protocols\":[],\"scan\":[]}")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .accept(MediaType.APPLICATION_JSON))
-//                .andReturn()
-//                .getResponse();
-//        // Then
-//        assertEquals(200, response.getStatus());
-//        assertEquals(MediaType.APPLICATION_JSON_VALUE, response.getContentType());
-//        assertEquals("{\"x\":0,\"y\":0}", response.getContentAsString());
+        RadarEntryDTO radarEntryDTO = new RadarEntryDTO(new ArrayList<>(), new ArrayList<>());
+        RadarEntry radarEntry = new RadarEntry(new ArrayList<>(), new ArrayList<>());
+        // Given
+        given(dtoMapper.mapRadarEntry(radarEntryDTO))
+                .willReturn(radarEntry);
+        given(radarService.getAttackCoordinates(radarEntry))
+                .willReturn(new Coordinates(0, 0));
+        // When
+        MockHttpServletResponse response = mvc.perform(
+                post("/radar/")
+                        .content("{\"protocols\":[],\"scan\":[]}")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andReturn()
+                .getResponse();
+        // Then
+        assertEquals(200, response.getStatus());
+        assertEquals(MediaType.APPLICATION_JSON_VALUE, response.getContentType());
+        assertEquals("{\"x\":0,\"y\":0}", response.getContentAsString());
     }
 }
