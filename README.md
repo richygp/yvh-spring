@@ -27,9 +27,6 @@ of scans.
 
 ### Response
 
-    HTTP/1.1 200 OK
-    Status: 200 OK
-    Content-Type: application/json
     {"x":0,"y":40}
 
 
