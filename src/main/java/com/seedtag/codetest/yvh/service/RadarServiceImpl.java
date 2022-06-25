@@ -51,11 +51,11 @@ public class RadarServiceImpl implements IRadarService {
         Set<Coordinates> filteredCoordinates = applyFilters(radarEntry);
         // Secondly sort the list of coordinates
         List<Coordinates> sortedCoordinates = sortCoordinates(filteredCoordinates);
-        if(radarEntry.protocols().contains(FURTHEST_ENEMIES)) {
-            return sortedCoordinates.get(sortedCoordinates.size() - 1);
-        }
         if(sortedCoordinates.isEmpty()) {
             return new Coordinates(0,0);
+        }
+        if(radarEntry.protocols().contains(FURTHEST_ENEMIES)) {
+            return sortedCoordinates.get(sortedCoordinates.size() - 1);
         }
         return sortedCoordinates.get(0);
     }
