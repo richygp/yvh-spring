@@ -57,7 +57,7 @@ public class RadarServiceImpl implements IRadarService {
         protocolTypes = protocolTypes.stream()
                 .filter(p -> !p.equals(CLOSEST_ENEMIES) && !p.equals(FURTHEST_ENEMIES))
                 .toList();
-        List<Scan> filteredScans = filterBeyondAllowedDistance(radarEntry.scan());
+        List<Scan> filteredScans = filterOutBeyondAllowedDistance(radarEntry.scan());
         if(protocolTypes.isEmpty()) {
             return filteredScans.stream().map(Scan::coordinates).collect(Collectors.toSet());
         }
@@ -67,7 +67,7 @@ public class RadarServiceImpl implements IRadarService {
         return filteredScans.stream().map(Scan::coordinates).collect(Collectors.toSet());
     }
 
-    private List<Scan> filterBeyondAllowedDistance(List<Scan> scans) {
+    private List<Scan> filterOutBeyondAllowedDistance(List<Scan> scans) {
         return scans.stream().filter(s -> s.coordinates().module().compareTo(MAX_DISTANCE) <= 0).toList();
     }
 }
