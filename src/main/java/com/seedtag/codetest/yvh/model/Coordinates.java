@@ -1,4 +1,4 @@
 package com.seedtag.codetest.yvh.model;
 
-public record Coordinates(int x, int y, Double module) {
+public record Coordinates(int x, int y) {
 }

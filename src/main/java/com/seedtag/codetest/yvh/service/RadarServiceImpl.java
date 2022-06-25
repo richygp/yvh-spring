@@ -55,7 +55,7 @@ public class RadarServiceImpl implements IRadarService {
             return sortedCoordinates.get(sortedCoordinates.size() - 1);
         }
         if(sortedCoordinates.isEmpty()) {
-            return new Coordinates(0,0, 0.0);
+            return new Coordinates(0,0);
         }
         return sortedCoordinates.get(0);
     }
@@ -69,7 +69,8 @@ public class RadarServiceImpl implements IRadarService {
      * @return a sorted list of {@link Coordinates}.
      */
     private List<Coordinates> sortCoordinates(Set<Coordinates> filteredCoordinates) {
-        Comparator<Coordinates> distance = Comparator.comparing(Coordinates::module);
+        Comparator<Coordinates> distance =
+                Comparator.comparing(c -> Math.sqrt(Math.pow(c.x(), 2) + Math.pow(c.y(), 2)));
         return filteredCoordinates.stream().sorted(distance).toList();
     }
 
@@ -104,6 +105,9 @@ public class RadarServiceImpl implements IRadarService {
      * @return a list of {@link Scan} which distance to origin is not bigger than maximum allowed.
      */
     private List<Scan> filterOutBeyondAllowedDistance(List<Scan> scans) {
-        return scans.stream().filter(s -> s.coordinates().module().compareTo(MAX_DISTANCE) <= 0).toList();
+        return scans.stream()
+                .filter(s ->
+                        Math.sqrt(Math.pow(s.coordinates().x(), 2) + Math.pow(s.coordinates().y(), 2)) <= MAX_DISTANCE)
+                .toList();
     }
 }
