@@ -26,12 +26,25 @@ import static com.seedtag.codetest.yvh.model.ProtocolType.PRIORITIZE_MECH;
 public class RadarServiceImpl implements IRadarService {
 
     public static final double MAX_DISTANCE = 100.0;
+    /**
+     * This Map defines the filter predicates which match for each protocol.
+     * Bear in mind there are a couple of protocols missing here which are
+     * not filters but sorters (CLOSEST and FURTHEST enemies).
+     */
     private final Map<ProtocolType, Predicate<Scan>> mapFilter = Map.of(
             ASSIST_ALLIES, s -> s.allies() > 0,
             AVOID_CROSSFIRE, s -> s.allies() == 0,
             PRIORITIZE_MECH, s -> s.enemies().type().equals(MECH),
             AVOID_MECH, s -> s.enemies().type().equals(SOLDIER)
     );
+
+    /**
+     * This function calculates the proper {@link Coordinates} to attack in
+     * the next movement.
+     *
+     * @param radarEntry the complete report of {@link RadarEntry} scanned.
+     * @return the {@link Coordinates} of next reachable target.
+     */
     @Override
     public Coordinates getAttackCoordinates(RadarEntry radarEntry) {
         // First filter by allies or mech type
@@ -47,11 +60,28 @@ public class RadarServiceImpl implements IRadarService {
         return sortedCoordinates.get(0);
     }
 
+    /**
+     * This function sorts the list of {@link Coordinates} which could be attacked.
+     * The minimum distance would be the sort criteria. Distance as the module of
+     * two coordinates X and Y.
+     *
+     * @param filteredCoordinates a Set of already filtered target {@link Coordinates}
+     * @return a sorted list of {@link Coordinates}.
+     */
     private List<Coordinates> sortCoordinates(Set<Coordinates> filteredCoordinates) {
         Comparator<Coordinates> distance = Comparator.comparing(Coordinates::module);
         return filteredCoordinates.stream().sorted(distance).toList();
     }
 
+    /**
+     * This function filters out those records which are not interesting based on
+     * the {@link ProtocolType} filters defined.
+     * Those records which distance to origin is beyond a maximum defined will be
+     * filtered out too.
+     *
+     * @param radarEntry complete scan reported as {@link RadarEntry}
+     * @return a Set of {@link Coordinates} which have to be considered as a next target.
+     */
     private Set<Coordinates> applyFilters(RadarEntry radarEntry) {
         List<ProtocolType> protocolTypes = radarEntry.protocols();
         protocolTypes = protocolTypes.stream()
@@ -67,6 +97,12 @@ public class RadarServiceImpl implements IRadarService {
         return filteredScans.stream().map(Scan::coordinates).collect(Collectors.toSet());
     }
 
+    /**
+     * Filters {@link Scan} which module distance to origin is bigger than a given maximum.
+     *
+     * @param scans List of {@link Scan} to be filtered.
+     * @return a list of {@link Scan} which distance to origin is not bigger than maximum allowed.
+     */
     private List<Scan> filterOutBeyondAllowedDistance(List<Scan> scans) {
         return scans.stream().filter(s -> s.coordinates().module().compareTo(MAX_DISTANCE) <= 0).toList();
     }
